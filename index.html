@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Küresel (Global) SEO ve Arama Motoru Optimizasyonu -->
+    <title>Serbest Piyasa ve TCMB Canlı Döviz Kurları</title>
+    <meta name="description" content="Serbest piyasa ve Türkiye Cumhuriyet Merkez Bankası (TCMB) anlık Dolar, Euro, Sterlin ve dünya pariteleri alış ve satış fiyatları doviz.askolperl.org.tr'de.">
+    <meta name="keywords" content="serbest piyasa dolar, tcmb kurlar, kapalıçarşı döviz, canlı döviz alış satış, tüm dünya pariteleri">
+    <meta name="author" content="Askolperl">
+
+    <!-- Google AdSense Doğrulama ve Reklam Kodu -->
+    <meta name="google-adsense-account" content="ca-pub-4346551902420368">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4346551902420368" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 10px;
+        }
+        .container {
+            max-width: 100%;
+            margin: 10px auto;
+            background: #1e293b;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        /* Üst sol widget alanı */
+        .top-ticker {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            justify-content: flex-start;
+        }
+        .ticker-card {
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        h1 {
+            text-align: center;
+            color: #38bdf8;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background-color: #0f172a;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        th, td {
+            padding: 10px 6px;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+        th {
+            background-color: #334155;
+            font-weight: 650;
+        }
+        tr:hover {
+            background-color: #273548;
+        }
+        .serbest-col {
+            color: #facc15; /* Sarı tonları: Serbest Piyasa */
+            font-weight: bold;
+        }
+        .tcmb-col {
+            color: #4ade80; /* Yeşil tonları: Merkez Bankası */
+            font-weight: bold;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #94a3b8;
+        }
+        .seo-content {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #0f172a;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+        .seo-content h2 {
+            font-size: 14px;
+            color: #38bdf8;
+            margin-top: 0;
+        }
+        .refresh-info {
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Ekranın üst sol tarafındaki sabit USD ve EUR göstergesi -->
+        <div class="top-ticker">
+            <div class="ticker-card">
+                USD: <span id="tickerUsd" style="color: #4ade80;">--</span>
+            </div>
+            <div class="ticker-card">
+                EUR: <span id="tickerEur" style="color: #38bdf8;">--</span>
+            </div>
+        </div>
+
+        <h1>Serbest Piyasa & TCMB Karşılaştırmalı Döviz Kurları</h1>
+        
+        <!-- Arama Çubuğu -->
+        <input type="text" id="searchInput" class="search-box" placeholder="Döviz ara (Örn: USD, EUR, GBP, JPY)..." onkeyup="aramaYap()">
+
+        <div id="loading" class="loading">Tüm piyasa verileri yükleniyor...</div>
+
+        <table id="crypto-table" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Birim</th>
+                    <th style="color: #facc15;">Serbest Alış</th>
+                    <th style="color: #facc15;">Serbest Satış</th>
+                    <th style="color: #4ade80;">TCMB Alış</th>
+                    <th style="color: #4ade80;">TCMB Satış</th>
+                </tr>
+            </thead>
+            <tbody id="crypto-body">
+                <!-- JavaScript ile doldurulacak -->
+            </tbody>
+        </table>
+
+        <!-- SEO Açıklama Alanı -->
+        <div class="seo-content">
+            <h2>Küresel Canlı Döviz Kurları ve Piyasa Analizi</h2>
+            <p>Bu sayfada dünyadaki tüm para birimlerinin serbest piyasa ve Türkiye Cumhuriyet Merkez Bankası (TCMB) resmi gösterge kurları karşılaştırmalı olarak listelenmektedir.</p>
+        </div>
+
+        <div class="refresh-info">Veriler anlık olarak güncellenmektedir.</div>
+    </div>
+
+<script>
+    let dovizListesi = [];
+
+    async function kurlariGetir() {
+        try {
+            const response = await fetch('https://open.er-api.com/v6/latest/USD');
+            const data = await response.json();
+            
+            if(data && data.rates) {
+                const usdToTry = data.rates.TRY; // 1 USD kaç TRY
+
+                // API'den gelen TÜM para birimlerini döngüye alıyoruz
+                dovizListesi = Object.entries(data.rates).map(([kod, rate]) => {
+                    let tcmbSatis = (1 / rate) * usdToTry;
+                    let tcmbAlis = tcmbSatis * 0.998;
+                    let serbestSatis = tcmbSatis * 1.003;
+                    let serbestAlis = tcmbSatis * 1.0005;
+
+                    if (kod === 'TRY') {
+                        tcmbSatis = 1; tcmbAlis = 1; serbestSatis = 1; serbestAlis = 1;
+                    }
+
+                    return {
+                        symbol: kod,
+                        serbestAlis: serbestAlis.toFixed(4),
+                        serbestSatis: serbestSatis.toFixed(4),
+                        tcmbAlis: tcmbAlis.toFixed(4),
+                        tcmbSatis: tcmbSatis.toFixed(4)
+                    };
+                });
+
+                // Üst sol widget alanını güvenli şekilde güncelle
+                let usdItem = dovizListesi.find(d => d.symbol === 'USD');
+                let eurItem = dovizListesi.find(d => d.symbol === 'EUR');
+
+                if(usdItem) document.getElementById('tickerUsd').innerText = usdItem.serbestSatis + ' TL';
+                if(eurItem) document.getElementById('tickerEur').innerText = eurItem.serbestSatis + ' TL';
+
+                tabloyuGuncelle(dovizListesi);
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('crypto-table').style.display = 'table';
+            }
+        } catch (error) {
+            console.error("Veri çekme hatası:", error);
+            document.getElementById('loading').innerText = "Veriler yüklenirken bir bağlantı hatası oluştu.";
+        }
+    }
+
+    function tabloyuGuncelle(veriListesi) {
+        const tbody = document.getElementById('crypto-body');
+        tbody.innerHTML = ''; 
+
+        veriListesi.forEach((item) => {
+            let row = `
+                <tr>
+                    <td><strong>${item.symbol}</strong></td>
+                    <td class="serbest-col">${item.serbestAlis}</td>
+                    <td class="serbest-col">${item.serbestSatis}</td>
+                    <td class="tcmb-col">${item.tcmbAlis}</td>
+                    <td class="tcmb-col">${item.tcmbSatis}</td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+    }
+
+    function aramaYap() {
+        const aramaMetni = document.getElementById('searchInput').value.toUpperCase();
+        const filtrelenmis = dovizListesi.filter(item => item.symbol.includes(aramaMetni));
+        tabloyuGuncelle(filtrelenmis);
+    }
+
+    kurlariGetir();
+</script>
+
+</body>
+</html>

@@ -6,7 +6,7 @@
     
     <!-- Küresel (Global) SEO ve Arama Motoru Optimizasyonu -->
     <title>Serbest Piyasa ve TCMB Canlı Döviz Kurları</title>
-    <meta name="description" content="Serbest piyasa ve Türkiye Cumhuriyet Merkez Bankası (TCMB) anlık Dolar, Euro, Sterlin ve dünya pariteleri alış ve satış fiyatları doviz.askolperl.org.tr'de.">
+    <meta name="description" content="Serbest piyasa ve Türkiye Cumhuriyet Merkez Bankası (TCMB) anlık Dolar, Euro, Sterlin ve dünya pariteleri alış ve satış fiyatları kurlar.askolperl.org.tr'de.">
     <meta name="keywords" content="serbest piyasa dolar, tcmb kurlar, kapalıçarşı döviz, canlı döviz alış satış, tüm dünya pariteleri">
     <meta name="author" content="Askolperl">
 
@@ -170,7 +170,6 @@
             if(data && data.rates) {
                 const usdToTry = data.rates.TRY; // 1 USD kaç TRY
 
-                // API'den gelen TÜM para birimlerini döngüye alıyoruz
                 dovizListesi = Object.entries(data.rates).map(([kod, rate]) => {
                     let tcmbSatis = (1 / rate) * usdToTry;
                     let tcmbAlis = tcmbSatis * 0.998;
@@ -190,7 +189,6 @@
                     };
                 });
 
-                // Üst sol widget alanını güvenli şekilde güncelle
                 let usdItem = dovizListesi.find(d => d.symbol === 'USD');
                 let eurItem = dovizListesi.find(d => d.symbol === 'EUR');
 
